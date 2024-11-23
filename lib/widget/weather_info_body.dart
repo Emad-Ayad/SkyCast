@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skycast/bloc/cubits/get_weather_cubit.dart';
 import 'package:skycast/model/weather_model.dart';
 import 'package:skycast/widget/details.dart';
+import 'package:skycast/widget/hourly_card.dart';
 
 class WeatherInfoBody extends StatelessWidget {
   const WeatherInfoBody({Key? key, required this.weather}) : super(key: key);
@@ -26,7 +27,7 @@ class WeatherInfoBody extends StatelessWidget {
               color: Colors.grey.withOpacity(0.3),
               borderRadius: BorderRadius.circular(25)),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               SizedBox(
                 height: 50,
@@ -61,7 +62,6 @@ class WeatherInfoBody extends StatelessWidget {
                   ),
                 ],
               ),
-              //TODO
               Text(
                 "${weatherModel.weatherCondition}",
                 style: TextStyle(
@@ -93,10 +93,43 @@ class WeatherInfoBody extends StatelessWidget {
                         CustomDetails(
                             image: "assets/wind.png",
                             definition: "Wind",
-                            content: "${weatherModel.wind}km/h"),
+                            content: "${weatherModel.wind.round()}km/h"),
                       ],
                     ),
                   ),
+                ),
+              ),
+              SizedBox(height: 10),
+              const Padding(
+                padding: EdgeInsets.only(left: 15),
+                child: Row(
+                  children: [
+                    Text(
+                      "Today",style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold
+                    ),),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: 125,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                      itemCount: weatherModel.hourlyData.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 8),
+                          child: HourlyCard(
+                              time: "${weatherModel.hourlyData[index].time.hour.toString()}:${weatherModel.hourlyData[index].time.minute.toString()}",
+                              icon: weatherModel.hourlyData[index].icon,
+                              temp: weatherModel.hourlyData[index].temp.round()
+                          ),
+                        );
+                      }),
                 ),
               ),
             ],
