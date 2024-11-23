@@ -12,34 +12,56 @@ class SearchView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Search"),
+        iconTheme: IconThemeData(
+          color: Colors.white, //change your color here
+        ),
+        backgroundColor: Colors.black,
+        title: const Text("Search",style: TextStyle(
+          color: Colors.white
+        ),),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              onSubmitted: (value) async{
-               var getWeatherCubit= BlocProvider.of<GetWeatherCubit>(context);
-               getWeatherCubit.getWeather(cityName: value);
-                Navigator.pop(context);
-              },
-              decoration: InputDecoration(
-                suffixIcon: Icon(Icons.search),
-                label: Text("Search"),
-                hintText: "Search A City",
-                hintStyle: TextStyle(
-                  color: Colors.grey
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                  borderSide: BorderSide(color: Colors.orange)
+      body: Stack(
+        children:[
+          Image.asset(
+            width: double.infinity,
+            height: double.infinity,
+            "assets/weather.jpg",
+            fit: BoxFit.fill,
+          ),
+          Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextField(
+                style: const TextStyle(color: Colors.white),
+                onSubmitted: (value) async {
+                  var getWeatherCubit =
+                  BlocProvider.of<GetWeatherCubit>(context);
+                  getWeatherCubit.getWeather(cityName: value);
+                  Navigator.pop(context);
+                },
+                decoration: InputDecoration(
+                  suffixIcon: const Icon(
+                    Icons.search,
+                    color: Colors.white,
+                  ),
+                  labelText: "Search",
+                  labelStyle: const TextStyle(color: Colors.white70),
+                  hintText: "Enter a city name",
+                  hintStyle: const TextStyle(color: Colors.white54),
+                  filled: true,
+                  fillColor: Colors.white.withOpacity(0.2),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide.none,
+                  ),
                 ),
               ),
-            )
-          ],
+            ],
+          ),
         ),
+    ]
       ),
     );
   }

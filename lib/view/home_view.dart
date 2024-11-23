@@ -14,8 +14,11 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Text(
-          'Weather App',),
+        backgroundColor: Colors.black,
+        title: const Text(
+          'SkyCast',
+          style: TextStyle(color: Colors.white),
+        ),
         actions: [
           IconButton(
             onPressed: () {
@@ -23,8 +26,9 @@ class HomeView extends StatelessWidget {
                 return SearchView();
               }));
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.search,
+              color: Colors.white,
             ),
           ),
         ],
@@ -34,7 +38,9 @@ class HomeView extends StatelessWidget {
           if (state is WeatherInitialState) {
             return NoWeatherBody();
           } else if (state is WeatherLoadedState) {
-            return WeatherInfoBody(weather: state.weatherModel,);
+            return WeatherInfoBody(
+              weather: state.weatherModel,
+            );
           } else {
             return Text("oops there is something wrong");
           }
